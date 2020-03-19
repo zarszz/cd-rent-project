@@ -25,8 +25,9 @@ class CompactDiscController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function insert(Request $request){
-        return CompactDisc::create($request->all());
+    public function insert(Request $request)
+    {
+        return response()->json(CompactDisc::create($request->all(), 200));
     }
 
     /**
@@ -37,7 +38,7 @@ class CompactDiscController extends Controller
      */
     public function show($id)
     {
-        return CompactDisc::findOrFail($id);
+        return response()->json(CompactDisc::findOrFail($id), 200);
     }
 
     /**
@@ -45,9 +46,9 @@ class CompactDiscController extends Controller
      * 
      * @return Response
      */
-    public function index(){
-        $content = ['status' => 200, 'message' => CompactDisc::all()];
-        return $content;
+    public function index()
+    {
+        return response()->json(CompactDisc::all(), 200);
     }
 
     /**
@@ -65,7 +66,7 @@ class CompactDiscController extends Controller
 
         $compactDisc->save();
 
-        return $compactDisc;
+        return response()->json($compactDisc, 201);
     }    
 
     /**
@@ -74,12 +75,13 @@ class CompactDiscController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function updateStock(Request $request, $id){
+    public function updateStock(Request $request, $id)
+    {
         $compactDisc = CompactDisc::findOrFail($id);
         $compactDisc->quantity = $request->quantity;
 
         $compactDisc->save();
         
-        return $compactDisc;
+        return response()->json($compactDisc, 201);
     }     
 }

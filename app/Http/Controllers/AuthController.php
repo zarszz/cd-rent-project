@@ -17,7 +17,8 @@ class AuthController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         try{
             $user = new User;
             $user->username = $request->username;
@@ -25,15 +26,14 @@ class AuthController extends Controller
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
             $user->address = $request->address;      
-
             $plainPassword = $request->password;
-            $user->password = app('hash')->make($plainPassword);
 
+            $user->password = app('hash')->make($plainPassword);
             $user->save();
 
-            return ['user' => $user, 'status' => 'CREATED', 'status' => 201];
+            return response()->json(['message' => 'created', 'user' => $user], 201);
         } catch (\Exception $e){
-            return ['message' => 'Registration failed', 'status' => 409];
+            return response()->json(['message' => 'registration failed'], 400);
         }
     }
 
@@ -43,10 +43,11 @@ class AuthController extends Controller
      * @param Request $request
      * @param Response
      */
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $credentials = $request->only(['email', 'password']);
-        if (! $token = Auth::attempt($credentials)) {
-            return ['message' => 'unauthorized', 'code' => 401];
+        if (!$token = Auth::attempt($credentials)) {
+            return response()->json(['message' => 'Email or password wrong'], 401);
         }
         return $this->respondWithToken($token);
     }

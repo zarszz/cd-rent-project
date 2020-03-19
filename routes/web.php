@@ -37,6 +37,8 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     // UserRentController
     $router->get('/user-rent', 'UserRentCompactDiscController@index');
     $router->get('/user-rent-all', 'UserRentCompactDiscController@show_all_data');
+    $router->post('/rent', 'UserRentCompactDiscController@rent');
+    $router->post('/return', 'UserRentCompactDiscController@return');
     
     // AuthenticationController
     $router->post('/register', 'AuthController@register');

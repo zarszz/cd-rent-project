@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return response()->json(User::findOrFail($id));
+        return response()->json(User::findOrFail($id), 200);
     }
 
     /**
@@ -35,9 +35,9 @@ class UserController extends Controller
      * 
      * @return Response
      */
-    public function index(){
-        $content = ['status' => 200, 'message' => User::all()];
-        return response()->json($content);
+    public function index()
+    {
+        return response()->json(User::all(), 200);
     }
 
     /**
@@ -46,7 +46,8 @@ class UserController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $user = User::findOrFail($id);
         $user->email = $request->email;
         $user->username = $request->username;
@@ -55,6 +56,6 @@ class UserController extends Controller
         $user->last_name = $request->last_name;
         
         $user->save();
-        return $user;
+        return response()->json($user, 201);
     }
 }

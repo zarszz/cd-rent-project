@@ -31,7 +31,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     /**
      * Set user to has many rent_compact_disc
      */
-    public function userRentCompactDisc(){
+    public function userRentCompactDisc()
+    {
         return $this->hasMany('App\UserRentCompactDisc', 'id');
     }
 
@@ -50,7 +51,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * 
      * @return array
      */
-    public function getjwtCustomClaims(){
+    public function getjwtCustomClaims()
+    {
         return [];
     }
 }
