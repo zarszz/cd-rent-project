@@ -74,7 +74,8 @@ class UserRentCompactDiscControllerTest extends TestCase
      * 
      * /return POST
      */
-    public function testShouldUpdateUserRentCompactDisc(){
+    public function testShouldUpdateUserRentCompactDisc()
+    {
         $returnCompactDisc = App\UserRentCompactDisc::latest()->first();
         $valid_data = [
             'id' => $returnCompactDisc->id,
@@ -102,7 +103,8 @@ class UserRentCompactDiscControllerTest extends TestCase
     /**
      * Invalid /rent POST
      */
-    public function testShouldNotCreatedUserRentCompactDisc(){   
+    public function testShouldNotCreatedUserRentCompactDisc()
+    {   
         $userRentCompactDisc = factory('App\UserRentCompactDisc')->make(); 
         $invalid_data = [
             'user_id' => 'INVALID USER ID',
@@ -119,7 +121,8 @@ class UserRentCompactDiscControllerTest extends TestCase
     /**
      * Invalid /return POST
      */
-    public function testShouldNotUpdateUserRentCompactDisc(){
+    public function testShouldNotUpdateUserRentCompactDisc()
+    {
         $returnCompactDisc = App\UserRentCompactDisc::latest()->first();
         $invalid_data = [
             'id' => $returnCompactDisc->id,
@@ -137,7 +140,8 @@ class UserRentCompactDiscControllerTest extends TestCase
     /**
      * Unauthorized /rent POST
      */
-    public function testShouldNotCreatedUserRentCompactDiscUnAuth(){
+    public function testShouldNotCreatedUserRentCompactDiscUnAuth()
+    {
         $headers = ['Authorization' => 'INVALID TOKEN'];
         $userRentCompactDisc = factory('App\UserRentCompactDisc')->make(); 
         $this->post('/api/rent', $userRentCompactDisc->toArray(), $headers);
@@ -147,7 +151,8 @@ class UserRentCompactDiscControllerTest extends TestCase
     /**
      * Unauthorized /return POST
      */
-    public function testShouldNotUpdateUserRentCompactDiscUnAuth(){
+    public function testShouldNotUpdateUserRentCompactDiscUnAuth()
+    {
         $headers = ['Authorization' => 'INVALID TOKEN'];
         $returnCompactDisc = App\UserRentCompactDisc::latest()->first();
         $valid_data = [

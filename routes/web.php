@@ -12,7 +12,7 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return 'Default Entry Point';
 });
 
 $router->get('/hello', function () use ($router) {

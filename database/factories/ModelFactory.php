@@ -6,6 +6,7 @@ use App\User;
 use App\CompactDisc;
 use App\UserRentCompactDisc;
 use Faker\Generator as Faker;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,10 +20,11 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(User::class, function (Faker $faker) {
+    $password = app('hash')->make($faker->password);
     return [
         'username' => $faker->userName,
         'email' => $faker->email,
-        'password' => $faker->password,
+        'password' => $password,
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,        
         'address' => $faker->address

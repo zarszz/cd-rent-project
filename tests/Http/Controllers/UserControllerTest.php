@@ -23,7 +23,7 @@ class UserControllerTest extends TestCase
      */
     public function testShouldReturnUser()
     {
-        $user = \App\User::find(1);       
+        $user = \App\User::find(10);       
         $this->get("/api/user/" . $user->id, $this->generateHeadersToken());
         $this->seeStatusCode(200);
     }
@@ -35,7 +35,7 @@ class UserControllerTest extends TestCase
      */
     public function testShouldUpdateUserData()
     {
-        $user = \App\User::find(1);
+        $user = \App\User::find(10);
         $valid_data = [
             "email" => $user->email,
             "first_name" => $user->first_name . " updated",
@@ -53,7 +53,7 @@ class UserControllerTest extends TestCase
             'last_name',
             'address'
         ]);
-        $user_after_update = \App\User::find(1);
+        $user_after_update = \App\User::find(10);
         $this->seeJsonEquals($user_after_update->toArray());
     }
 
@@ -63,7 +63,7 @@ class UserControllerTest extends TestCase
      */
     public function testShoulCannotUpdateUserData()
     {
-        $user = \App\User::find(1);
+        $user = \App\User::find(10);
         $invalid_data = [
             "email" => $user->email,
             "first_name" => $user->first_name . " updated",
@@ -81,7 +81,7 @@ class UserControllerTest extends TestCase
     public function testShouldCannotUpdateUserDataUnAuth()
     {
         $headers = ['Authorization' => 'INVALID TOKEN'];
-        $user = \App\User::find(1);
+        $user = \App\User::find(10);
         $valid_data = [
             "email" => $user->email,
             "first_name" => $user->first_name . " updated",

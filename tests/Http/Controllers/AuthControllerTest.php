@@ -31,8 +31,9 @@ class AuthControllerTest extends TestCase
      */
     public function testShouldLoginUser()
     {
+        $user = App\User::latest()->get();        
         $validData = [
-            'email' => 'udin@email.com',
+            'email' => 'ucok@email.com',
             'password' => 'password'
         ];
         $this->post('/api/login', $validData);
