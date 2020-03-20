@@ -47,7 +47,7 @@ class AuthController extends Controller
     {
         $credentials = $request->only(['email', 'password']);
         if (!$token = Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Email or password wrong'], 401);
+            return response()->json(['message' => 'email or password wrong'], 401);
         }
         return $this->respondWithToken($token);
     }

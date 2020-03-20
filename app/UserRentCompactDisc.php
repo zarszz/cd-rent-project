@@ -13,14 +13,16 @@ class UserRentCompactDisc extends Model
     /**
      * Get user_rent_compact_disc record associated with the compactDisc record
      */
-    public function compactDisc(){
+    public function compactDisc()
+    {
         return $this->hasOne('App\CompactDisc', 'compact_disc_id');
     }
 
     /**
      * Get user_rent_compact_disc record associated with the user record
      */
-    public function user(){
+    public function user()
+    {
         return $this->hasOne('App\User', 'user_id');
     }
 }

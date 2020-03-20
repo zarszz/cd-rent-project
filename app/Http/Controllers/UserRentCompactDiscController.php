@@ -39,10 +39,10 @@ class UserRentCompactDiscController extends Controller
         $userRentDatas = array();
         foreach ($userRentRawData as $user_rent_data) {
             $user = User::find($user_rent_data['id']);
-            $compact_disc = CompactDisc::find($user_rent_data['compact_disc_id']);
+            $compactDisc = CompactDisc::find($user_rent_data['compact_disc_id']);
             $data = [
                 'user' => $user,
-                'cd_data' => $compact_disc,
+                'cd_data' => $compactDisc,
                 'rent_date' => $user_rent_data['rent_date'],
                 'return_date' => $user_rent_data['return_date'] == NULL ? 'not returned' : $user_rent_data['return_date'],
                 'return_date' => $user_rent_data['return_date'],
@@ -81,7 +81,7 @@ class UserRentCompactDiscController extends Controller
                 return response()->json(['status' => 'sailed', 'message' => 'out of stock'], 400);
             }
         } else {
-            return response()->json(['status' => 'failed', 'message' => 'user or cd id not found'], 404);
+            return response()->json(['status' => 'failed', 'message' => 'user or cd not found'], 404);
         }
     }
 
@@ -113,12 +113,12 @@ class UserRentCompactDiscController extends Controller
                         ->where('id', '=', $request->compact_disc_id)
                         ->get()[0]['rate'];
 
-            $validated_rating = $this->validateRating($rating);
+            $validatedRating = $this->validateRating($rating);
             
             if($diffInDays == 0){
-                $cost = 1 * $validated_rating * 1000;
+                $cost = 1 * $validatedRating * 1000;
             } else if ($diffInDays > 0){
-                $cost = $diffInDays * $validated_rating * 1000;
+                $cost = $diffInDays * $validatedRating * 1000;
             } else {
                 $cost = 0;
             }

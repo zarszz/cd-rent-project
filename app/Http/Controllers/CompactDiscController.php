@@ -27,7 +27,7 @@ class CompactDiscController extends Controller
      */
     public function insert(Request $request)
     {
-        return response()->json(CompactDisc::create($request->all(), 200));
+        return response()->json(CompactDisc::create($request->all(), 201));
     }
 
     /**
