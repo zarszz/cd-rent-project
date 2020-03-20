@@ -33,7 +33,7 @@ $factory->define(User::class, function (Faker $faker) {
 
 $factory->define(CompactDisc::class, function (Faker $faker) {
     return [
-        'title' => $faker->firstName,
+        'title' => $faker->userName,
         'rate' => $faker->randomFloat($nbMaxDecimals = 5, $min = 0, $max = 5),
         'category' => $faker->lastName,
         'quantity' => $faker->numberBetween($min = 0, $max = 50)

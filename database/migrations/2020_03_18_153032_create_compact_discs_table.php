@@ -15,7 +15,7 @@ class CreateCompactDiscsTable extends Migration
     {
         Schema::create('compact_discs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
+            $table->string('title')->unique();
             $table->float('rate');
             $table->string('category');
             $table->integer('quantity');

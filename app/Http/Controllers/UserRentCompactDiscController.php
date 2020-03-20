@@ -60,6 +60,10 @@ class UserRentCompactDiscController extends Controller
      */
     public function rent(Request $request)
     {
+        $this->validate($request, [
+            'user_id' => 'required',
+            'compact_disc_id' => 'required'
+        ]);
         if(User::find($request->user_id) && CompactDisc::find($request->compact_disc_id)){
             $quantity = CompactDisc::select('quantity')->where('id', '=', $request->compact_disc_id)->get()[0]['quantity'];
             if($quantity > 0){
@@ -93,6 +97,11 @@ class UserRentCompactDiscController extends Controller
      */
     public function return(Request $request)
     {
+        $this->validate($request, [
+            'id' => 'required',
+            'user_id' => 'required',
+            'compact_disc_id' => 'required'
+        ]);
         $compactDisc = CompactDisc::find($request->compact_disc_id);
         $user = User::find($request->user_id);
         $userRentCompactDisc = UserRentCompactDisc::find($request->id);

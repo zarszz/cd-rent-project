@@ -12,8 +12,16 @@ class AuthControllerTest extends TestCase
      */
     public function testShouldCreateUser()
     {
-        $validData = factory('App\User')->make();
-        $this->post('/api/register', $validData->toArray());
+        $data = factory('App\User')->make();
+        $validData = [
+            'username' => $data->username,
+            'email' => $data->email,
+            'password' => bin2hex(openssl_random_pseudo_bytes(16)),
+            'first_name' => $data->first_name,
+            'last_name' => $data->last_name,
+            'address' => $data->address
+        ];
+        $this->post('/api/register', $validData);
         $this->seeStatusCode(201);
         $createdUser = \App\User::latest()->first();
         $this->seeJsonEquals(
@@ -65,17 +73,21 @@ class AuthControllerTest extends TestCase
             'password' => 'password'
         ];
         $this->post('/api/register', $invalidData);
-        $this->seeStatusCode(400);
-        $this->seeJsonEquals(['message' => 'registration failed']);
+        $this->seeStatusCode(422);
+        $this->seeJsonEquals([
+            "address" =>[
+                "The address field is required."
+                ]
+            ]);
     }
 
     /**
      * Invalid /login [POST]
      */
-    public function testShouldNotLogindUser()
+    public function testShouldNotLoginUser()
     {
         $invalidData = [
-            'email' => 'INVALID EMAIL',
+            'email' => 'invalid@email.com',
             'password' => 'INVALID PASSWORD'
         ];
         $this->post('/api/login', $invalidData);

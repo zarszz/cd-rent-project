@@ -48,6 +48,14 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,
+        [
+            'email' => 'email|max:100',
+            'username' => 'min:3|max:100',
+            'password' => 'min:3|max:100',
+            'first_name' => 'min:3|max:100',
+            'last_name' => 'min:3|max:100'
+        ]);
         $user = User::findOrFail($id);
         $user->email = $request->email;
         $user->username = $request->username;

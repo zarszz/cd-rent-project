@@ -19,6 +19,14 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
+        $this->validate($request,
+            ['username' => 'required|max:100',
+             'email' => 'required|email',
+             'password' => 'required|max:100',
+             'first_name' => 'required|max:100',
+             'last_name' => 'required|max:100',
+             'address' => 'required'
+            ]);
         try{
             $user = new User;
             $user->username = $request->username;
@@ -45,6 +53,10 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        $this->validate($request, [
+            'email' => 'required|email|max:100',
+            'password' => 'required'
+        ]);
         $credentials = $request->only(['email', 'password']);
         if (! $token = Auth::attempt($credentials)) {
             return response()->json(['message' => 'email or password wrong'], 401);

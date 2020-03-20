@@ -27,6 +27,12 @@ class CompactDiscController extends Controller
      */
     public function insert(Request $request)
     {
+        $this->validate($request, [
+            'title' => 'required|min:2|max:100,unique:compact_discs',
+            'rate' => 'required',
+            'category' => 'required|min:2|max:100',
+            'quantity' => 'required'
+        ]);
         return response()->json(CompactDisc::create($request->all(), 201));
     }
 
@@ -57,7 +63,12 @@ class CompactDiscController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'title' => 'min:2|max:100,unique:compact_discs',            
+            'category' => 'min:2|max:100',            
+        ]);        
         $compactDisc = CompactDisc::findOrFail($id);
         $compactDisc->title = $request->title;
         $compactDisc->rate = $request->rate;
@@ -77,6 +88,9 @@ class CompactDiscController extends Controller
      */
     public function updateStock(Request $request, $id)
     {
+        $this->validate($request, [
+            'quantity' => 'required'
+        ]);
         $compactDisc = CompactDisc::findOrFail($id);
         $compactDisc->quantity = $request->quantity;
 
