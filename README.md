@@ -2,6 +2,10 @@
 
 Cd Rent API is a service for rental and return any CD
 
+## Docker Deployment
+
+Read [this](https://github.com/zarszz/cd-rent-project/wiki/DEPLOYMENT-USING-DOCKER) wiki
+
 ## Authentication
 
 *CD Rent API* uses JWT Authentication. First you can create new account. After you have created your account, you can login to get your token. After you acquired your token you can use this services.
