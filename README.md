@@ -1,6 +1,6 @@
 # CD Rent API
 
-Cd Rent API is a service for rental and return any CD.
+Cd Rent API is a service for rental and return any CD. \
 Build with Lumen 7 and Laravel engine 7
 
 ## Docker Deployment
