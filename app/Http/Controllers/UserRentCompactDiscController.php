@@ -7,13 +7,14 @@ use Illuminate\Http\Request;
 use App\User;
 use App\CompactDisc;
 use App\UserRentCompactDisc;
+use App\UserPayRent;
 
 use DateTime;
 
 class UserRentCompactDiscController extends Controller
 {
      /**
-     * Instantiate a new UserController instance.
+     * Instantiate a new UserRentCompactDiscController instance.
      *
      * @return void
      */
@@ -21,7 +22,7 @@ class UserRentCompactDiscController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     /**
      * Return all user and  the cd that has been rented
      */
@@ -54,7 +55,7 @@ class UserRentCompactDiscController extends Controller
 
     /**
      * Rental the cd with logged in user
-     * 
+     *
      * @param Request $request
      * @return array
      */
@@ -68,10 +69,10 @@ class UserRentCompactDiscController extends Controller
             $quantity = CompactDisc::select('quantity')->where('id', '=', $request->compact_disc_id)->get()[0]['quantity'];
             if($quantity > 0){
                 $disc = CompactDisc::find($request->compact_disc_id);
-                
+
                 // decrement quantity
                 $disc->quantity = $quantity - 1;
-                
+
                 $userRentCompactDisc = new UserRentCompactDisc;
                 $userRentCompactDisc->user_id = $request->user_id;
                 $userRentCompactDisc->compact_disc_id = $request->compact_disc_id;
@@ -91,7 +92,7 @@ class UserRentCompactDiscController extends Controller
 
     /**
      * Return the cd wih logged in user
-     * 
+     *
      * @param Request $request
      * @return array
      */
@@ -114,16 +115,16 @@ class UserRentCompactDiscController extends Controller
             $from = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $rentDdate);
 
             // return date
-            $to = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $returnDate);            
+            $to = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $returnDate);
 
             $diffInDays = $to->diffInDays($from);
-             
+
             $rating = CompactDisc::select('rate')
                         ->where('id', '=', $request->compact_disc_id)
                         ->get()[0]['rate'];
 
             $validatedRating = $this->validateRating($rating);
-            
+
             if($diffInDays == 0){
                 $cost = 1 * $validatedRating * 1000;
             } else if ($diffInDays > 0){
@@ -139,14 +140,24 @@ class UserRentCompactDiscController extends Controller
                 // increment cds quantity
                 $compactDisc->quantity = $compactDisc->quantity + 1;
 
+                // add user payment information to database
+                UserPayRent::create([
+                    "rent_id" => $userRentCompactDisc->id,
+                    "total_payment" => $cost,
+                    "rental_duration" => $diffInDays
+                ]);
+
                 $userRentCompactDisc->save();
                 $compactDisc->save();
 
-                return response()->json(['status' => 'success', 
-                                         'total rental day' => $diffInDays,
-                                         'cost' => $cost,
-                                         'dvd data' => CompactDisc::find($request->compact_disc_id)
-                                        ], 201);
+                return response()->json(['status' => 'success',
+                                            "data" => [
+                                                'rental id' => $userRentCompactDisc->id,
+                                                'total rental day' => $diffInDays,
+                                                'cost' => $cost,
+                                                'dvd data' => CompactDisc::find($request->compact_disc_id)
+                                            ]
+                                         ], 201);
             } else {
                 return response()->json(['status' => 'failed', 400]);
             }
@@ -156,8 +167,8 @@ class UserRentCompactDiscController extends Controller
     }
 
     /**
-     * Validate rating 
-     * 
+     * Validate rating
+     *
      * @param Float $rating
      * @return @Float $rating
      */

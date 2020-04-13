@@ -48,7 +48,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     /**
      * Return a key value array, containring any custom claims to added to the JWT
-     * 
+     *
      * @return array
      */
     public function getjwtCustomClaims()
