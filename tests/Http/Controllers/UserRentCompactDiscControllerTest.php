@@ -17,7 +17,7 @@ class UserRentCompactDiscControllerTest extends TestCase
 
     /**
      * Return all rent data
-     * 
+     *
      * /user-rent [GET]
      */
     public function testShouldReturnAllRentData()
@@ -28,18 +28,18 @@ class UserRentCompactDiscControllerTest extends TestCase
 
      /**
      * Return all specifc rent data
-     * 
+     *
      * /user-rent-all [GET]
      */
     public function testShouldReturnAllSpecificData()
     {
         $this->get('/api/user-rent-all', $this->generateHeadersToken());
-        $this->seeStatusCode(200);        
+        $this->seeStatusCode(200);
     }
 
     /**
      * Create new user rent data
-     * 
+     *
      * /rent [POST]
      */
     public function testShouldCreateUserRentCompactDisc()
@@ -71,7 +71,7 @@ class UserRentCompactDiscControllerTest extends TestCase
 
     /**
      * User return rented cd
-     * 
+     *
      * /return POST
      */
     public function testShouldUpdateUserRentCompactDisc()
@@ -86,16 +86,18 @@ class UserRentCompactDiscControllerTest extends TestCase
         $this->seeStatusCode(201);
         $this->seeJsonStructure([
             'status',
-            'total rental day',
-            'cost',
-            'dvd data' => [
-                'id',
-                'title',
-                'rate',
-                'category',
-                'quantity',
-                'created_at',
-                'updated_at'
+            'data' => [
+                'total rental day',
+                'cost',
+                'dvd data' => [
+                    'id',
+                    'title',
+                    'rate',
+                    'category',
+                    'quantity',
+                    'created_at',
+                    'updated_at'
+                ]
             ]
         ]);
     }
@@ -104,8 +106,8 @@ class UserRentCompactDiscControllerTest extends TestCase
      * Invalid /rent POST
      */
     public function testShouldNotCreatedUserRentCompactDisc()
-    {   
-        $userRentCompactDisc = factory('App\UserRentCompactDisc')->make(); 
+    {
+        $userRentCompactDisc = factory('App\UserRentCompactDisc')->make();
         $invalid_data = [
             'user_id' => 'INVALID USER ID',
             'compact_disc_id' => $userRentCompactDisc->compact_disc_id
@@ -143,7 +145,7 @@ class UserRentCompactDiscControllerTest extends TestCase
     public function testShouldNotCreatedUserRentCompactDiscUnAuth()
     {
         $headers = ['Authorization' => 'INVALID TOKEN'];
-        $userRentCompactDisc = factory('App\UserRentCompactDisc')->make(); 
+        $userRentCompactDisc = factory('App\UserRentCompactDisc')->make();
         $this->post('/api/rent', $userRentCompactDisc->toArray(), $headers);
         $this->seeStatusCode(401);
     }
@@ -162,6 +164,6 @@ class UserRentCompactDiscControllerTest extends TestCase
         ];
         $this->post('/api/return', $valid_data, $headers);
         $this->seeStatusCode(401);
-    }    
-    
+    }
+
 }

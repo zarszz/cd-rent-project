@@ -18,10 +18,10 @@ class CompactDiscController extends Controller
     {
         $this->middleware('auth');
     }
-        
+
     /**
      * Insert new compact disc to database
-     * 
+     *
      * @param Request $request
      * @return Response
      */
@@ -49,7 +49,7 @@ class CompactDiscController extends Controller
 
     /**
      * Retrive all compact disc from db
-     * 
+     *
      * @return Response
      */
     public function index()
@@ -59,16 +59,16 @@ class CompactDiscController extends Controller
 
     /**
      * Update data the compact disc for the given ID
-     * 
+     *
      * @param Request $request
      * @return Response
      */
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'title' => 'min:2|max:100,unique:compact_discs',            
-            'category' => 'min:2|max:100',            
-        ]);        
+            'title' => 'min:2|max:100,unique:compact_discs',
+            'category' => 'min:2|max:100',
+        ]);
         $compactDisc = CompactDisc::findOrFail($id);
         $compactDisc->title = $request->title;
         $compactDisc->rate = $request->rate;
@@ -78,11 +78,11 @@ class CompactDiscController extends Controller
         $compactDisc->save();
 
         return response()->json($compactDisc, 201);
-    }    
+    }
 
     /**
      * Update data the compact disc for the given ID
-     * 
+     *
      * @param Request $request
      * @return Response
      */
@@ -95,7 +95,7 @@ class CompactDiscController extends Controller
         $compactDisc->quantity = $request->quantity;
 
         $compactDisc->save();
-        
+
         return response()->json($compactDisc, 201);
-    }     
+    }
 }
