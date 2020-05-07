@@ -17,18 +17,18 @@ class CompactDiscControllerTest extends TestCase
 
     /**
      * Get all cds
-     * 
-     * /compact-disc [GET]
+     *
+     * /compact-discs [GET]
      */
     public function testShouldReturnAllDiscs()
     {
-        $this->get('/api/compact-disc', $this->generateHeadersToken());
+        $this->get('/api/compact-discs', $this->generateHeadersToken());
         $this->seeStatusCode(200);
     }
 
     /**
      * Get cd by id
-     * 
+     *
      * /compact-disc/<:id> [GET]
      */
     public function testShouldReturnDisc()
@@ -40,7 +40,7 @@ class CompactDiscControllerTest extends TestCase
 
     /**
      * Create new cd
-     * 
+     *
      * /compact-disc/ [POST]
      */
     public function testShouldCreateCompactDisc()
@@ -124,7 +124,7 @@ class CompactDiscControllerTest extends TestCase
         $this->put('/api/compact-disc/' . $disc->id, $invalidData, $this->generateHeadersToken());
         $this->seeStatusCode(500);
     }
-    
+
     /**
      * Unauthorized /compact-disc [POST]
      */
@@ -148,7 +148,7 @@ class CompactDiscControllerTest extends TestCase
         ];
         $this->put('/api/compact-disc'.'/'.$compactDisc->id,$validData, $headers);
         $this->seeStatusCode(401);
-    }    
+    }
 
     /**
      * Unauthorized /compact-disc [GET]

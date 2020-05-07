@@ -7,8 +7,8 @@ class AuthControllerTest extends TestCase
 {
     /**
      * Register new user
-     * 
-     * /register [POST]
+     *
+     * /auth/register [POST]
      */
     public function testShouldCreateUser()
     {
@@ -21,12 +21,12 @@ class AuthControllerTest extends TestCase
             'last_name' => $data->last_name,
             'address' => $data->address
         ];
-        $this->post('/api/register', $validData);
+        $this->post('/api/auth/register', $validData);
         $this->seeStatusCode(201);
         $createdUser = \App\User::latest()->first();
         $this->seeJsonEquals(
             [
-                'message' => 'created', 
+                'message' => 'created',
                 'user' => $createdUser->toArray()
             ]
         );
@@ -34,21 +34,21 @@ class AuthControllerTest extends TestCase
 
     /**
      * Login to existed user
-     *      
-     * /login [POST]
+     *
+     * /auth/login [POST]
      */
     public function testShouldLoginUser()
     {
-        $user = App\User::latest()->get();        
+        $user = App\User::latest()->get();
         $validData = [
             'email' => 'ucok@email.com',
             'password' => 'password'
         ];
-        $this->post('/api/login', $validData);
+        $this->post('/api/auth/login', $validData);
         $this->seeStatusCode(200);
         $this->seeJsonStructure(
             ['message',
-             'data' => 
+             'data' =>
                 [
                     'token',
                     'token_type',
@@ -59,8 +59,8 @@ class AuthControllerTest extends TestCase
 
      /**
      * Invalid register new user
-     * 
-     * /register [POST]
+     *
+     * /auth/register [POST]
      */
     public function testNotShouldCreateUser()
     {
@@ -72,7 +72,7 @@ class AuthControllerTest extends TestCase
             'invalid_column' => 'babakan',
             'password' => 'password'
         ];
-        $this->post('/api/register', $invalidData);
+        $this->post('/api/auth/register', $invalidData);
         $this->seeStatusCode(422);
         $this->seeJsonEquals([
             "address" =>[
@@ -82,7 +82,7 @@ class AuthControllerTest extends TestCase
     }
 
     /**
-     * Invalid /login [POST]
+     * Invalid /auth/login [POST]
      */
     public function testShouldNotLoginUser()
     {
@@ -90,8 +90,8 @@ class AuthControllerTest extends TestCase
             'email' => 'invalid@email.com',
             'password' => 'INVALID PASSWORD'
         ];
-        $this->post('/api/login', $invalidData);
+        $this->post('/api/auth/login', $invalidData);
         $this->seeStatusCode(401);
         $this->seeJsonEquals(['message' => 'email or password wrong']);
-    }        
+    }
 }

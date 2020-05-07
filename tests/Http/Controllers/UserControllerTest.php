@@ -4,33 +4,33 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class UserControllerTest extends TestCase
-{    
+{
     /**
      * Get all users
-     * 
-     * /user [GET]
+     *
+     * /users [GET]
      */
     public function testShouldReturnAllUsers()
     {
-        $this->get('/api/user', $this->generateHeadersToken());
+        $this->get('/api/users', $this->generateHeadersToken());
         $this->seeStatusCode(200);
     }
 
     /**
      * Get user by id
-     * 
+     *
      * /user<:id> [GET]
      */
     public function testShouldReturnUser()
     {
-        $user = \App\User::find(10);       
+        $user = \App\User::find(10);
         $this->get("/api/user/" . $user->id, $this->generateHeadersToken());
         $this->seeStatusCode(200);
     }
 
     /**
      * Update user data by id
-     * 
+     *
      * /user [PUT]
      */
     public function testShouldUpdateUserData()
